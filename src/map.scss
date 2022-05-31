@@ -1,0 +1,49 @@
+$dark: #2d2d2d;
+$light: #FFF4EC;
+$secondary: #636A60;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  max-height: 100vh;
+  background: $light;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  header {
+    background: $secondary;
+    color: $light;
+  }
+
+  main {
+    flex-grow: 1;
+    overflow: hidden;
+
+    svg {
+      cursor: move;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  footer {
+    padding: .5rem 1rem;
+    background: $dark;
+    color: $light;
+    display: flex;
+    flex-flow: row wrap;
+
+    p {
+      margin: .5rem 0;
+    }
+  }
+}
