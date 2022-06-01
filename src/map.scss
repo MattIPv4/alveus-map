@@ -3,10 +3,11 @@
 $dark: #2D2D2D;
 $light: #FFF4EC;
 $secondary: #636A60;
-$map: #A6B2A0;
+$tertiary: #A6B2A0;
 $select: #00B4FF;
 $select-fill: color.mix($select, #fff, $weight: 10%);
 $select-label: color.mix($select, #000, $weight: 60%);
+$transition: 0.2s ease-in-out;
 
 * {
   box-sizing: border-box;
@@ -19,6 +20,8 @@ body {
   height: 100vh;
   max-height: 100vh;
   background: $light;
+  color: $secondary;
+  font-family: 'PT Sans', sans-serif;
 }
 
 body {
@@ -38,7 +41,7 @@ body {
       cursor: move;
       width: 100%;
       height: 100%;
-      background: $map;
+      background: $tertiary;
 
       [id$=" [outline]"] {
         cursor: pointer;
@@ -46,7 +49,7 @@ body {
         &,
         > rect,
         > path {
-          transition: stroke 0.2s ease-in-out, fill 0.2s ease-in-out;
+          transition: stroke $transition, fill $transition;
         }
 
         // Some layers are in a lighten mode to ensure Figma preserved them in the export
@@ -116,17 +119,17 @@ body {
           // Labels will also indicate they're hoverable
           &[id^="Label"] {
             circle {
-              transition: stroke 0.2s ease-in-out;
+              transition: stroke $transition;
             }
 
             path {
-              transition: fill 0.2s ease-in-out;
+              transition: fill $transition;
             }
           }
 
           // Fade out anything above that isn't the label for the outline
           &:not([id^="Label"]) {
-            transition: opacity 0.2s ease-in-out;
+            transition: opacity $transition;
           }
         }
       }
@@ -134,14 +137,42 @@ body {
   }
 
   footer {
-    padding: .5rem 1rem;
+    padding: 0 .5rem;
     background: $dark;
     color: $light;
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-between;
+
+    @media only screen and (min-width: 768px) {
+      > * {
+        flex: 1 1 0;
+      }
+
+      > :not(:first-child):not(:last-child) {
+        text-align: center;
+      }
+
+      > :last-child {
+        text-align: right;
+      }
+    }
 
     p {
-      margin: .5rem 0;
+      margin: .5rem;
+
+      a {
+        &,
+        &:visited {
+          color: $tertiary;
+          transition: color $transition;
+        }
+
+        &:hover,
+        &:focus {
+          color: $select;
+        }
+      }
     }
   }
 }
