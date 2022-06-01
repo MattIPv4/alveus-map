@@ -155,8 +155,18 @@ const showMapInfoHandler = (outline, modal, name) => {
         modal.querySelector('#info-title').textContent = info?.title || name;
         modal.querySelector('#info-desc').textContent = info?.desc || `Sorry, there is no information available about '${name}'`;
         modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-        modal.focus();
+        modal.style.transition = 'opacity 0.2s ease-in-out';
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                modal.style.opacity = '1';
+                modal.setAttribute('aria-hidden', 'false');
+                modal.focus();
+
+                setTimeout(() => {
+                    modal.style.transition = '';
+                }, 200);
+            });
+        });
     };
 };
 
@@ -168,9 +178,19 @@ const hideMapInfoHandler = (map, modal) => e => {
     if (active) active.classList.remove('active');
 
     // Hide the modal
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-    document.documentElement.focus();
+    modal.style.transition = 'opacity 0.2s ease-in-out';
+    window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+            modal.style.opacity = '0';
+            modal.setAttribute('aria-hidden', 'true');
+            document.documentElement.focus();
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.transition = '';
+            }, 200);
+        });
+    });
 };
 
 const startClickHandling = (map, modal) => {
