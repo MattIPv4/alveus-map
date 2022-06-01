@@ -21,6 +21,7 @@
     "sass": "^1.52.1"
   },
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "svg-pan-zoom": "^3.6.1"
   }
 }

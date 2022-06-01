@@ -1,4 +1,5 @@
 import svgPanZoom from 'svg-pan-zoom';
+import hammer from 'hammerjs';
 
 const clampPosition = (pz, pos) => {
     // Ensure all the edges remain pinned to the viewport edges
@@ -55,6 +56,57 @@ const computeMinZoom = (pz, minZoom, maxZoom, applyBase = false) => {
     }
 };
 
+const mobileEventsHandler = () => ({
+    haltEventListeners: [ 'touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel' ],
+    init(options) {
+        const { instance } = options;
+        let initialScale = 1, pannedX = 0, pannedY = 0;
+
+        // Init Hammer
+        // Listen only for pointer and touch events
+        this.hammer = hammer(options.svgElement, {
+            inputClass: hammer.SUPPORT_POINTER_EVENTS ? hammer.PointerEventInput : hammer.TouchInput
+        });
+
+        // Enable pinch
+        this.hammer.get('pinch').set({ enable: true });
+
+        // Handle double tap
+        this.hammer.on('doubletap', () => instance.zoomIn());
+
+        // Handle pan
+        this.hammer.on('panstart panmove', ev => {
+            // On pan start reset panned variables
+            if (ev.type === 'panstart') {
+                pannedX = 0;
+                pannedY = 0;
+            }
+
+            // Pan only the difference
+            instance.panBy({ x: ev.deltaX - pannedX, y: ev.deltaY - pannedY });
+            pannedX = ev.deltaX;
+            pannedY = ev.deltaY;
+        });
+
+        // Handle pinch
+        this.hammer.on('pinchstart pinchmove', ev => {
+            // On pinch start remember initial zoom
+            if (ev.type === 'pinchstart') {
+                initialScale = instance.getZoom();
+                instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y });
+            }
+
+            instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y });
+        });
+
+        // Prevent moving the page on some devices when panning over SVG
+        options.svgElement.addEventListener('touchmove', e => e.preventDefault());
+    },
+    destroy() {
+        this.hammer.destroy();
+    },
+});
+
 const startPanZoom = svg => {
     const minZoom = 0.5;
     const maxZoom = 5;
@@ -63,8 +115,10 @@ const startPanZoom = svg => {
         zoomScaleSensitivity: 0.5,
         minZoom,
         maxZoom,
+        customEventsHandler: mobileEventsHandler(),
         beforePan(_, newPan) { return clampPosition(this, newPan); },
     });
+    svg.getElementsByClassName('svg-pan-zoom_viewport')[0].style.willChange = 'transform';
 
     computeMinZoom(panZoom, minZoom, maxZoom, true);
     window.addEventListener('resize', () => {
