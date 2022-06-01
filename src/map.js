@@ -127,7 +127,29 @@ const startPanZoom = svg => {
     });
 };
 
+const mapInfo = {
+    Pasture: 'The pasture is a large expanse of dirt, grass and trees. Here you can find Stompy, Acero, Serrano and Jalapeño.',
+    Parrots: 'The parrot aviary is large mesh building with a wooden shelter on the side, home to the parrots. Here you can find Tico, Miley, Mia and Siren.',
+    Chickens: 'The chickens have a large coop and an even larger run with mesh and shade cloth. Here you\'ll find both Oliver and Nugget.',
+};
+
+const startClickHandling = svg => {
+    const outlines = [ ...svg.querySelectorAll('[id$=" [outline]"]') ];
+    outlines.forEach(outline => {
+        const name = outline.getAttribute('id').replace(/ +\[outline]$/, '');
+        const info = mapInfo[name];
+
+        // TODO: This seems to run if you drag and end up over an outline, it shouldn't
+        outline.addEventListener('click', e => {
+            e.preventDefault();
+            if (info) alert(info);
+            else alert(`Sorry, there is no information available about '${name}'`);
+        });
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const map = document.getElementsByTagName('svg')[0];
     startPanZoom(map);
+    startClickHandling(map);
 });
