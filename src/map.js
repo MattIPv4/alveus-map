@@ -128,28 +128,82 @@ const startPanZoom = svg => {
 };
 
 const mapInfo = {
-    Pasture: 'The pasture is a large expanse of dirt, grass and trees. Here you can find Stompy, Acero, Serrano and Jalapeño.',
-    Parrots: 'The parrot aviary is large mesh building with a wooden shelter on the side, home to the parrots. Here you can find Tico, Miley, Mia and Siren.',
-    Chickens: 'The chickens have a large coop and an even larger run with mesh and shade cloth. Here you\'ll find both Oliver and Nugget.',
+    Pasture: {
+        title: 'Pasture',
+        desc: 'The pasture is a large expanse of dirt, grass and trees. Here you can find Stompy, Acero, Serrano and Jalapeño.'
+    },
+    Parrots: {
+        title: 'Parrot Aviary',
+        desc: 'The parrot aviary is large mesh building with a wooden shelter on the side, home to the parrots. Here you can find Tico, Miley, Mia and Siren.'
+    },
+    Chickens: {
+        title: 'Chicken Coop',
+        desc: 'The chickens have a large coop and an even larger run with mesh and shade cloth. Here you\'ll find both Oliver and Nugget.'
+    },
 };
 
-const startClickHandling = svg => {
-    const outlines = [ ...svg.querySelectorAll('[id$=" [outline]"]') ];
+const showMapInfoHandler = (outline, modal, name) => {
+    const info = mapInfo[name];
+    return e => {
+        e.preventDefault();
+
+        // Mark the outline as active
+        outline.classList.add('active');
+
+        // Show the modal
+        // TODO: Markdown support for desc
+        modal.querySelector('#info-title').textContent = info?.title || name;
+        modal.querySelector('#info-desc').textContent = info?.desc || `Sorry, there is no information available about '${name}'`;
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        modal.focus();
+    };
+};
+
+const hideMapInfoHandler = (map, modal) => e => {
+    e.preventDefault();
+
+    // Clean up the active outline
+    const active = map.querySelector('.active');
+    if (active) active.classList.remove('active');
+
+    // Hide the modal
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.focus();
+};
+
+const startClickHandling = (map, modal) => {
+    // Ensure the modal can be closed
+    const closeHandler = hideMapInfoHandler(map, modal);
+    modal.querySelector('button[aria-label="Close"]').addEventListener('click', closeHandler);
+    modal.querySelector('button[aria-label="Close"]').addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') closeHandler(e);
+    });
+    modal.addEventListener('click', e => {
+        if (e.target === modal) closeHandler(e);
+    });
+    modal.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeHandler(e);
+    });
+
+    // Allow each outline to open the modal
+    const outlines = [ ...map.querySelectorAll('[id$=" [outline]"]') ];
     outlines.forEach(outline => {
         const name = outline.getAttribute('id').replace(/ +\[outline]$/, '');
-        const info = mapInfo[name];
-
+        outline.setAttribute('tabindex', '0');
+        const showHandler = showMapInfoHandler(outline, modal, name);
         // TODO: This seems to run if you drag and end up over an outline, it shouldn't
-        outline.addEventListener('click', e => {
-            e.preventDefault();
-            if (info) alert(info);
-            else alert(`Sorry, there is no information available about '${name}'`);
+        outline.addEventListener('click', showHandler);
+        outline.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') showHandler(e);
         });
     });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const map = document.getElementsByTagName('svg')[0];
+    const info = document.getElementById('info');
     startPanZoom(map);
-    startClickHandling(map);
+    startClickHandling(map, info);
 });
