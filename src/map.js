@@ -31,13 +31,6 @@ const computeMinZoom = (pz, minZoom, maxZoom, applyBase = false) => {
     const heightRatio = currentSizes.height / actualHeight;
     const baseZoom = Math.max(widthRatio, heightRatio) * pz.getZoom();
 
-    // Apply the base zoom if requested
-    if (applyBase) {
-        pz.zoom(baseZoom);
-        pz.center();
-        pz.pan(clampPosition(pz, pz.getPan()));
-    }
-
     // Apply the new minimum zoom
     const newMinZoom = baseZoom * minZoom;
     pz.setMinZoom(newMinZoom);
@@ -51,6 +44,13 @@ const computeMinZoom = (pz, minZoom, maxZoom, applyBase = false) => {
     pz.setMaxZoom(newMaxZoom);
     if (pz.getZoom() > newMaxZoom) {
         pz.zoom(newMaxZoom);
+        pz.pan(clampPosition(pz, pz.getPan()));
+    }
+
+    // Apply the base zoom if requested
+    if (applyBase) {
+        pz.zoom(baseZoom);
+        pz.center();
         pz.pan(clampPosition(pz, pz.getPan()));
     }
 };
