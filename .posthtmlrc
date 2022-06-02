@@ -2,6 +2,13 @@
   "plugins": {
     "posthtml-include": {
       "root": "./src"
+    },
+    "posthtml-expressions": {
+      "locals": {
+        "title": "Alveus Sanctuary Interactive Map",
+        "description": "Explore Alveus Sanctuary with an interactive map and find out more about the different buildings on the property.",
+        "url": "https://mattipv4.github.io/alveus-map/"
+      }
     }
   }
 }
