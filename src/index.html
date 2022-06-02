@@ -1,65 +1,63 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-    <title>{{ title }}</title>
+  <title>{{ title }}</title>
 
-    <meta name="title" content="{{ title }}" />
-    <meta name="description" content="{{ description }}" />
-    <meta name="theme-color" content="#636A60"/>
+  <meta name="title" content="{{ title }}" />
+  <meta name="description" content="{{ description }}" />
+  <meta name="theme-color" content="#636A60" />
 
-    <link rel="icon" type="image/png" href="{{ url }}alveus.png"/>
-    <link rel="shortcut-icon" type="image/png" href="{{ url }}alveus.png"/>
-    <link rel="apple-touch-icon" type="image/png" href="{{ url }}alveus.png"/>
+  <link rel="icon" type="image/png" href="{{ url }}alveus.png" />
+  <link rel="shortcut-icon" type="image/png" href="{{ url }}alveus.png" />
+  <link rel="apple-touch-icon" type="image/png" href="{{ url }}alveus.png" />
 
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@AlveusSanctuary" />
-    <meta name="twitter:creator" content="@MattIPv4" />
-    <meta name="twitter:title" content="{{ title }}" />
-    <meta name="twitter:description" content="{{ description }}" />
-    <meta name="twitter:image" content="{{ url }}alveus.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@AlveusSanctuary" />
+  <meta name="twitter:creator" content="@MattIPv4" />
+  <meta name="twitter:title" content="{{ title }}" />
+  <meta name="twitter:description" content="{{ description }}" />
+  <meta name="twitter:image" content="{{ url }}alveus.png" />
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:title" content="{{ title }}" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:type" content="website" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="{{ title }}" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description }}" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:image" content="{{ url }}alveus.png" />
+  <meta prefix="og: http://ogp.me/ns#" property="og:title" content="{{ title }}" />
+  <meta prefix="og: http://ogp.me/ns#" property="og:type" content="website" />
+  <meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US" />
+  <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="{{ title }}" />
+  <meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description }}" />
+  <meta prefix="og: http://ogp.me/ns#" property="og:image" content="{{ url }}alveus.png" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
-    <link href="map.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="map.css" rel="stylesheet" />
 </head>
 <body>
-<header>
-
-</header>
 <main>
-    <include src="includes/map.svg"></include>
-    <div id="info" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="info-title" aria-describedby="info-desc" tabindex="-1">
-        <div>
-            <div>
-                <h1 id="info-title"></h1>
-                <button type="button" aria-label="Close"></button>
-            </div>
-            <div id="info-desc"></div>
-        </div>
+  <include src="includes/map.svg"></include>
+  <div id="info" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="info-title"
+       aria-describedby="info-desc" tabindex="-1">
+    <div>
+      <div>
+        <h1 id="info-title"></h1>
+        <button type="button" aria-label="Close"></button>
+      </div>
+      <div id="info-desc"></div>
     </div>
+  </div>
 </main>
 <footer>
-    <p>
-        Drag, zoom and click to explore the property
-    </p>
-    <p>
-        <a href="https://www.alveussanctuary.org/" target="_blank" rel="noreferrer">Alveus Sanctuary</a>
-    </p>
-    <p>
-        Map by <a href="https://mattcowley.co.uk" target="_blank" rel="noreferrer">@MattIPv4</a>,
-        open-source on <a href="https://github.com/MattIPv4/alveus-map" target="_blank" rel="noreferrer">GitHub</a>
-    </p>
+  <p>
+    Drag, zoom and click to explore the property
+  </p>
+  <p>
+    <a href="https://www.alveussanctuary.org/" target="_blank" rel="noreferrer">Alveus Sanctuary</a>
+  </p>
+  <p>
+    Map by <a href="https://mattcowley.co.uk" target="_blank" rel="noreferrer">@MattIPv4</a>,
+    open-source on <a href="https://github.com/MattIPv4/alveus-map" target="_blank" rel="noreferrer">GitHub</a>
+  </p>
 </footer>
 <script src="map.js"></script>
 </body>
