@@ -9,14 +9,14 @@ There is a vehicle gate on the left side of the pasture at the top end, and a sm
         
 Here you can find:
 - Stompy _(Emu)_
-- Winne _(Cow)_
+- Winnie _(Cow)_
 - Acero _(Horse)_
 - Serrano _(Donkey)_
 - Jalapeño _(Donkey)_`,
     },
     Parrots: {
         title: 'Parrot Aviary',
-        desc: `The parrot aviary is large mesh building with a wooden shelter on the side, home to the parrots.
+        desc: `The parrot aviary is large metal-mesh building with a wooden shelter on the side, home to the parrots.
 It is located on the other side of the main road from the top end of the pasture, next to the chickens.
 
 Here you can find:
@@ -64,6 +64,67 @@ On the side of the fence facing toward the training center and pasture, you'll a
         title: 'Well Outbuilding',
         desc: `A small outbuilding that contains a well _(or, at least I think it does -- don't quote me on that)_.
 An old, shed snake skin was found in here early on in the creation of Alveus.`,
+    },
+    'Critter Cave': {
+        title: 'Critter Cave',
+        desc: `Located within the studio, the Critter Cave is the home to many of Alveus' critters.
+It is comprised of two rooms, with the larger room containing a wall-to-wall terrarium for Noodle as well as a terrarium for Georgie, and a smaller room off to the side with homes for all the smaller critters.
+
+Here you'll be able to find:
+- Noodle _(Carpet Python)_
+- Georgie _(African Bullfrog)_
+- Pickles _(Vinegaroon)_
+- Hank _(Smoky Ghost Millipede)_
+- Marty(s) _(Zebra Isopods)_
+- Barbra(s) & Baked Bean(s) _(Madagascan Hissing Cockroaches)_
+- Powder Orange Isopods
+- Rubber Ducky Isopods`,
+    },
+    'The Studio': {
+        title: 'The Studio',
+        desc: `The Studio is the main office and broadcast space for Alveus, located at the center of the property.
+Many of Alveus' streams happen from the studio, including Animal Quest and the P.O. box unboxings.`,
+    },
+    'Nutrition House': {
+        title: 'Nutrition House',
+        desc: `The nutrition house is where, as the name suggests, food is stored prepped for all the animals.
+A small kitchen is present in this building, with a sink, fridge & freezer available, as well as a microwave.
+You'll also find lots of other resources for the animals here, including enrichment items, cleaning producst, etc.
+A few ambassadors also live in this building, in terrariums or cages.
+_There's also a toilet in this building if you need it._ 
+        
+Here you can find:
+- Patchy _(Ball Python)_
+- Snork _(Chinchilla)_
+- Moomin _(Chinchilla)_`,
+    },
+    Barn: {
+        title: 'Storage Barn',
+        desc: `The storage barn is located just above the core buildings of the property, and is used as a workshop for Alveus as well as storage for assorted things.
+On the side of the barn, you'll find an enclosure where Orion currently lives, until his full aviary is built.
+
+Here you'll find:
+- Orion _(Prairie x Peregrine Falcon)_`,
+    },
+    Crows: {
+        title: 'Crow Aviary',
+        desc: `Further up the main road through the property, beyond the barn, is the crow aviary.
+Similar in construction to the parrot aviary, it is a large metal-mesh building that houses the crows.
+
+Here you'll find:
+- Abbott _(Crow)_
+- Coconut _(Crow)_`,
+    },
+    Orion: {
+        title: 'Falcon Enclosure',
+        desc: `Almost directly opposite the crow aviary is the new falcon enclosure, which will be Orion's home once built.
+This aviary was funded by QTCinderalla, and is currently under construction.`,
+    },
+    Foxes: {
+        title: 'Fox Enclosure',
+        desc: `Right at the top end of the property is the new fox enclosure, which is also currently under construction.
+The enclosure is of a similar construction to the aviaries, a large metal-mesh building, but is longer than the other enclosures.
+Attached to the side of the enclosure at one end is a wooden house for the foxes to sleep in, and a dome-shaped port-hole window for the foxes to look out from.`,
     },
 };
 
