@@ -108,7 +108,7 @@ const mobileEventsHandler = () => ({
     },
 });
 
-const startPanZoom = (svg, beforePan) => {
+const startPanZoom = svg => {
     const minZoom = 0.5;
     const maxZoom = 5;
 
@@ -117,12 +117,13 @@ const startPanZoom = (svg, beforePan) => {
         minZoom,
         maxZoom,
         customEventsHandler: mobileEventsHandler(),
-        beforePan(_, newPan) {
-            if (typeof beforePan === 'function') beforePan(newPan);
+        beforePan(oldPan, newPan) {
+            svg.dispatchEvent(new CustomEvent('beforePan', { detail: { oldPan, newPan } }));
             return clampPosition(this, newPan);
         },
     });
     svg.getElementsByClassName('svg-pan-zoom_viewport')[0].style.willChange = 'transform';
+    svg.addEventListener('panBy', e => { panZoom.panBy(e.detail); });
 
     computeMinZoom(panZoom, minZoom, maxZoom, true);
     window.addEventListener('resize', () => {
@@ -253,13 +254,33 @@ const hideMapInfoHandler = (map, modal) => e => {
     });
 };
 
-const startClickHandling = (map, modal) => {
+const startInfoHandling = (map, modal) => {
     // Track if we're panning the map
-    let isPanning = false;
-    let isMouseDown = false;
+    let isMouseDown = false, isPanning = false;
     map.addEventListener('mousedown', () => { isMouseDown = true; isPanning = false; });
     map.addEventListener('mouseup', () => { isMouseDown = false; });
-    const beforePan = () => { if (isMouseDown) isPanning = true; };
+    map.addEventListener('beforePan', () => { if (isMouseDown) isPanning = true; });
+
+    // Allow keyboard navigation
+    map.setAttribute('tabindex', '-1');
+    map.focus();
+    map.addEventListener('keydown', e => {
+        // If the user is holding down shift, allow faster panning
+        const mult = e.shiftKey ? 10 : 1;
+
+        // Determine pan direction
+        let pan;
+        if (e.key === 'ArrowUp') pan = { x: 0, y: 20 * mult };
+        else if (e.key === 'ArrowDown') pan = { x: 0, y: -20 * mult };
+        else if (e.key === 'ArrowLeft') pan = { x: 20 * mult, y: 0 };
+        else if (e.key === 'ArrowRight') pan = { x: -20 * mult, y: 0 };
+
+        // If key was a pan direction, pan the map
+        if (pan) {
+            e.preventDefault();
+            map.dispatchEvent(new CustomEvent('panBy', { detail: pan }));
+        }
+    });
 
     // Ensure the modal can be closed
     const closeHandler = hideMapInfoHandler(map, modal);
@@ -274,13 +295,32 @@ const startClickHandling = (map, modal) => {
         if (e.key === 'Escape') closeHandler(e);
     });
 
-    // Allow each outline to open the modal
     const outlines = [ ...map.querySelectorAll('[id$=" [outline]"]') ];
     outlines.forEach(outline => {
-        const name = outline.getAttribute('id').replace(/ +\[outline]$/, '');
-        // TODO: When a user tabs to an outline, we need to make sure its in view
+        // Allow the user to tab between outlines
         outline.setAttribute('tabindex', '0');
-        const showHandler = showMapInfoHandler(outline, modal, name);
+        outline.addEventListener('focus', () => {
+            // Determine how much is visible already
+            const rect = outline.getBoundingClientRect();
+            const mapRect = map.getBoundingClientRect();
+            const top = Math.max(rect.top, mapRect.top);
+            const left = Math.max(rect.left, mapRect.left);
+            const bottom = Math.min(rect.bottom, mapRect.bottom);
+            const right = Math.min(rect.right, mapRect.right);
+            const areaFull = rect.width * rect.height;
+            const areaVisible = Math.max(right - left, 0) * Math.max(bottom - top, 0);
+
+            // Pan into view (centered) if not visible enough
+            if (areaVisible / areaFull < 0.25) {
+                map.dispatchEvent(new CustomEvent('panBy', { detail: {
+                    x: -(rect.left + (rect.width / 2) - (mapRect.width / 2)),
+                    y: -(rect.top + (rect.height / 2) - (mapRect.height / 2)),
+                } }));
+            }
+        });
+
+        // Allow each outline to open the modal
+        const showHandler = showMapInfoHandler(outline, modal, outline.getAttribute('id').replace(/ +\[outline]$/, ''));
         outline.addEventListener('click', e => {
             if (!isPanning) showHandler(e);
         });
@@ -288,14 +328,11 @@ const startClickHandling = (map, modal) => {
             if (e.key === 'Enter' || e.key === ' ') showHandler(e);
         });
     });
-
-    // Return the beforePan handler
-    return beforePan;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const map = document.getElementsByTagName('svg')[0];
     const info = document.getElementById('info');
-    const beforePan = startClickHandling(map, info);
-    startPanZoom(map, beforePan);
+    startInfoHandling(map, info);
+    startPanZoom(map);
 });
