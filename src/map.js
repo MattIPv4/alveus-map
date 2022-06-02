@@ -108,7 +108,7 @@ const mobileEventsHandler = () => ({
     },
 });
 
-const startPanZoom = svg => {
+const startPanZoom = (svg, beforePan) => {
     const minZoom = 0.5;
     const maxZoom = 5;
 
@@ -117,7 +117,10 @@ const startPanZoom = svg => {
         minZoom,
         maxZoom,
         customEventsHandler: mobileEventsHandler(),
-        beforePan(_, newPan) { return clampPosition(this, newPan); },
+        beforePan(_, newPan) {
+            if (typeof beforePan === 'function') beforePan(newPan);
+            return clampPosition(this, newPan);
+        },
     });
     svg.getElementsByClassName('svg-pan-zoom_viewport')[0].style.willChange = 'transform';
 
@@ -251,6 +254,13 @@ const hideMapInfoHandler = (map, modal) => e => {
 };
 
 const startClickHandling = (map, modal) => {
+    // Track if we're panning the map
+    let isPanning = false;
+    let isMouseDown = false;
+    map.addEventListener('mousedown', () => { isMouseDown = true; isPanning = false; });
+    map.addEventListener('mouseup', () => { isMouseDown = false; });
+    const beforePan = () => { if (isMouseDown) isPanning = true; };
+
     // Ensure the modal can be closed
     const closeHandler = hideMapInfoHandler(map, modal);
     modal.querySelector('button[aria-label="Close"]').addEventListener('click', closeHandler);
@@ -268,19 +278,24 @@ const startClickHandling = (map, modal) => {
     const outlines = [ ...map.querySelectorAll('[id$=" [outline]"]') ];
     outlines.forEach(outline => {
         const name = outline.getAttribute('id').replace(/ +\[outline]$/, '');
+        // TODO: When a user tabs to an outline, we need to make sure its in view
         outline.setAttribute('tabindex', '0');
         const showHandler = showMapInfoHandler(outline, modal, name);
-        // TODO: This seems to run if you drag and end up over an outline, it shouldn't
-        outline.addEventListener('click', showHandler);
+        outline.addEventListener('click', e => {
+            if (!isPanning) showHandler(e);
+        });
         outline.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') showHandler(e);
         });
     });
+
+    // Return the beforePan handler
+    return beforePan;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const map = document.getElementsByTagName('svg')[0];
     const info = document.getElementById('info');
-    startPanZoom(map);
-    startClickHandling(map, info);
+    const beforePan = startClickHandling(map, info);
+    startPanZoom(map, beforePan);
 });
