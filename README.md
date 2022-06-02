@@ -18,8 +18,9 @@ changes to `src` and rebuild the site, and make the site available at
 This project uses the `sass` package to compile styling, `esbuild` to bundle
 the JavaScript, and `posthtml` to generate the HTML. It makes use of the
 `svg-pan-zoom` and `hammerjs` packages to provide the pan and zoom
-functionality for the map, and the `markdown-it` package to render the content
-for each building's information overlay.
+functionality for the map, as well as the `markdown-it` and
+`markdown-it-link-attributes` packages to render the content for each
+building's information overlay.
 
 _(The userland `punnycode` package is also a runtime dependency, as
 `markdown-it` requires it and we're in a browser context.)_

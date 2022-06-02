@@ -1,4 +1,13 @@
 import markdown from 'markdown-it';
+import markdownLinkAttributes from 'markdown-it-link-attributes';
+
+const md = markdown({ typographer: true });
+md.use(markdownLinkAttributes, {
+  attrs: {
+    target: '_blank',
+    rel: 'noreferrer',
+  },
+});
 
 const mapInfo = {
   Pasture: {
@@ -107,32 +116,35 @@ Here you'll find:
 - Orion _(Prairie x Peregrine Falcon)_`,
   },
   Crows: {
-    title: 'Crow Aviary',
-    desc: `Further up the main road through the property, beyond the barn, is the crow aviary.
+    title: 'Crow Enclosure',
+    desc: `Further up the main road through the property, beyond the barn, is the crow enclosure.
 Similar in construction to the parrot aviary, it is a large metal-mesh building that houses the crows.
 
+This enclosure was sponsored by [PointCrow](https://www.twitch.tv/pointcrow).
+
 Here you'll find:
-- Abbott _(Crow)_
-- Coconut _(Crow)_`,
+- Abbott _(American Crow)_
+- Coconut _(American Crow)_`,
   },
   Orion: {
     title: 'Falcon Enclosure',
-    desc: `Almost directly opposite the crow aviary is the new falcon enclosure, which will be Orion's home once built.
-This aviary was funded by QTCinderalla, and is currently under construction.`,
+    desc: `Almost opposite the crow enclosure is the new falcon enclosure, another large metal-mesh building.
+This enclosure is currently under construction, and will be Orion's home once built.`,
   },
   Foxes: {
     title: 'Fox Enclosure',
     desc: `Right at the top end of the property is the new fox enclosure, which is also currently under construction.
-The enclosure is of a similar construction to the aviaries, a large metal-mesh building, but is longer than the other enclosures.
-Attached to the side of the enclosure at one end is a wooden house for the foxes to sleep in, and a dome-shaped port-hole window for the foxes to look out from.`,
+The enclosure is of a similar construction to the enclosures, a large metal-mesh building, but is longer than the other enclosures.
+Attached to the side of the enclosure at one end is a wooden house for the foxes to sleep in, and a dome-shaped port-hole window for the foxes to look out from.
+
+This enclosure was sponsored by [QTCinderalla](https://www.twitch.tv/qtcinderella).`,
   },
 };
 
 const showMapInfoHandler = (outline, modal, name) => {
   const info = mapInfo[name];
   const title = info?.title || name;
-  const desc = markdown({ typographer: true })
-    .render(info?.desc || `Sorry, there is no information available about '${title}'`);
+  const desc = md.render(info?.desc || `Sorry, there is no information available about '${title}'`);
 
   return e => {
     e.preventDefault();
