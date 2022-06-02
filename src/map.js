@@ -162,12 +162,44 @@ Here you'll find:
 - Oliver _(Olive Egger Chicken)_
 - Nugget _(Ameraucana Chicken)_`,
     },
+    'Training Center': {
+        title: 'Training Center',
+        desc: `The training center is a large metal building with a main grass area, as well as some sheltered stalls on one side.
+It can be used for a variety of things, from animal exercise to hosting events.`,
+    },
+    'Car Shelter': {
+        title: 'Car Shelter',
+        desc: 'Yup, just a shelter for cars. You\'ll probably want to park here if visiting the property.',
+    },
+    Goats: {
+        title: 'Goats',
+        desc: `The goat pen is located under the balcony of Ella's house, and is a fenced in area for the goats to live in.
+
+Here you can find:
+- Beetle
+- Oatmeal`,
+    },
+    House: {
+        title: 'Ella\'s House',
+        desc: 'Just a house on the property that Ella happens to live in. Ella is a part time staff member at Alveus.'
+    },
+    Dogs: {
+        title: 'Dog Area + Mural',
+        desc: `Attached to the side of the house is a small garden area where dogs can be kept.
+On the side of the fence facing toward the training center and pasture, you'll also find a hand-painted mural for Alveus.`,
+    },
+    Well: {
+        title: 'Well Outbuilding',
+        desc: `A small outbuilding that contains a well _(or, at least I think it does -- don't quote me on that)_.
+An old, shed snake skin was found in here early on in the creation of Alveus.`,
+    },
 };
 
 const showMapInfoHandler = (outline, modal, name) => {
     const info = mapInfo[name];
     const title = info?.title || name;
-    const desc = markdown().render(info?.desc || `Sorry, there is no information available about '${title}'`);
+    const desc = markdown({ typographer: true })
+        .render(info?.desc || `Sorry, there is no information available about '${title}'`);
 
     return e => {
         e.preventDefault();
