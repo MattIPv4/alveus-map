@@ -1,5 +1,6 @@
 import svgPanZoom from 'svg-pan-zoom';
 import hammer from 'hammerjs';
+import markdown from 'markdown-it';
 
 const clampPosition = (pz, pos) => {
     // Ensure all the edges remain pinned to the viewport edges
@@ -130,20 +131,44 @@ const startPanZoom = svg => {
 const mapInfo = {
     Pasture: {
         title: 'Pasture',
-        desc: 'The pasture is a large expanse of dirt, grass and trees. Here you can find Stompy, Acero, Serrano and Jalapeño.'
+        desc: `The pasture is a large expanse of dirt, grass and trees located near the entrance of the property.
+At the top end of pasture is the barn, where food for the animals in the pasture is kept, as well as a stall for Winnie and an open stall used to feed some of the animals.
+There is a vehicle gate on the left side of the pasture at the top end, and a smaller gate near the barn.
+        
+Here you can find:
+- Stompy _(Emu)_
+- Winne _(Cow)_
+- Acero _(Horse)_
+- Serrano _(Donkey)_
+- Jalapeño _(Donkey)_`,
     },
     Parrots: {
         title: 'Parrot Aviary',
-        desc: 'The parrot aviary is large mesh building with a wooden shelter on the side, home to the parrots. Here you can find Tico, Miley, Mia and Siren.'
+        desc: `The parrot aviary is large mesh building with a wooden shelter on the side, home to the parrots.
+It is located on the other side of the main road from the top end of the pasture, next to the chickens.
+
+Here you can find:
+- Tico _(Blue and Gold Macaw)_
+- Miley _(Catalina Macaw)_
+- Mia _(African Grey)_
+- Siren _(Blue-fronted Amazon)_`,
     },
     Chickens: {
         title: 'Chicken Coop',
-        desc: 'The chickens have a large coop and an even larger run with mesh and shade cloth. Here you\'ll find both Oliver and Nugget.'
+        desc: `The chickens have a large wooden coop with multiple nesting boxes, and an even larger run with mesh siding and shade cloth.
+The coop is located right next to the parrot aviary, just off the entrance road opposite the pasture.
+
+Here you'll find:
+- Oliver _(Olive Egger Chicken)_
+- Nugget _(Ameraucana Chicken)_`,
     },
 };
 
 const showMapInfoHandler = (outline, modal, name) => {
     const info = mapInfo[name];
+    const title = info?.title || name;
+    const desc = markdown().render(info?.desc || `Sorry, there is no information available about '${title}'`);
+
     return e => {
         e.preventDefault();
 
@@ -152,8 +177,8 @@ const showMapInfoHandler = (outline, modal, name) => {
 
         // Show the modal
         // TODO: Markdown support for desc
-        modal.querySelector('#info-title').textContent = info?.title || name;
-        modal.querySelector('#info-desc').textContent = info?.desc || `Sorry, there is no information available about '${name}'`;
+        modal.querySelector('#info-title').textContent = title;
+        modal.querySelector('#info-desc').innerHTML = desc;
         modal.style.display = 'flex';
         modal.style.transition = 'opacity 0.2s ease-in-out';
         window.requestAnimationFrame(() => {
