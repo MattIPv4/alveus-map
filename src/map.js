@@ -243,7 +243,7 @@ const hideMapInfoHandler = (map, modal) => e => {
         window.requestAnimationFrame(() => {
             modal.style.opacity = '0';
             modal.setAttribute('aria-hidden', 'true');
-            document.documentElement.focus();
+            map.focus();
 
             setTimeout(() => {
                 modal.style.display = 'none';
@@ -263,6 +263,7 @@ const startInfoHandling = (map, modal) => {
     // Allow keyboard navigation
     map.setAttribute('tabindex', '-1');
     map.focus();
+    map.addEventListener('click', () => { map.focus(); });
     map.addEventListener('keydown', e => {
         // If the user is holding down shift, allow faster panning
         const mult = e.shiftKey ? 10 : 1;
