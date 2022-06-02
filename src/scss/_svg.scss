@@ -1,0 +1,101 @@
+svg {
+  cursor: move;
+  width: 100%;
+  height: 100%;
+  background: $tertiary;
+
+  [id$=" [outline]"] {
+    cursor: pointer;
+
+    &,
+    > rect,
+    > path {
+      transition: stroke $transition, fill $transition;
+    }
+
+    // Some layers are in a lighten mode to ensure Figma preserved them in the export
+    &[style*="mix-blend-mode:lighten"],
+    &[style*="mix-blend-mode: lighten"] {
+      mix-blend-mode: revert !important;
+
+      &,
+      > rect,
+      > path {
+        fill: transparent;
+        stroke: transparent;
+      }
+    }
+
+    &:hover,
+    &:focus,
+    &.active {
+      outline: none;
+
+      &,
+      > rect {
+        &[fill] {
+          fill: $select-fill;
+        }
+
+        &[stroke] {
+          stroke: $select;
+        }
+      }
+
+      > path {
+        &[fill] {
+          // Paths that have a mask + fill are actually stroke outlines
+          &[mask] {
+            fill: $select;
+          }
+
+          // Those without a mask are just fills
+          &:not([mask]) {
+            fill: $select-fill;
+          }
+        }
+
+        &[stroke] {
+          stroke: $select;
+        }
+      }
+
+      ~ * {
+        &[id^="Label"] {
+          circle {
+            stroke: $select-label;
+          }
+
+          path {
+            fill: $select-label;
+          }
+        }
+
+        &:not([id^="Label"]) {
+          opacity: 0.1;
+        }
+      }
+    }
+
+    // Ensure everything above the outline does not steal pointer events (e.g. labels)
+    ~ * {
+      pointer-events: none;
+
+      // Labels will also indicate they're hoverable
+      &[id^="Label"] {
+        circle {
+          transition: stroke $transition;
+        }
+
+        path {
+          transition: fill $transition;
+        }
+      }
+
+      // Fade out anything above that isn't the label for the outline
+      &:not([id^="Label"]) {
+        transition: opacity $transition;
+      }
+    }
+  }
+}

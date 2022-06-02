@@ -1,0 +1,39 @@
+footer {
+  padding: 0 .5rem;
+  background: $dark;
+  color: $light;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  @media only screen and (min-width: 768px) {
+    > * {
+      flex: 1 1 0;
+    }
+
+    > :not(:first-child):not(:last-child) {
+      text-align: center;
+    }
+
+    > :last-child {
+      text-align: right;
+    }
+  }
+
+  p {
+    margin: .5rem;
+
+    a {
+      &,
+      &:visited {
+        color: $tertiary;
+        transition: color $transition;
+      }
+
+      &:hover,
+      &:focus {
+        color: $select;
+      }
+    }
+  }
+}

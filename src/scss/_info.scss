@@ -1,0 +1,94 @@
+#info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba($dark, .5);
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  display: none;
+  opacity: 0;
+
+  > div {
+    background: $light;
+    border-radius: .25rem;
+    max-height: 100%;
+    max-width: 100%;
+    min-width: 50vw;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 64rem) {
+      max-width: 60rem;
+    }
+
+    > div {
+      &:nth-child(1) {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        flex: 0 0 auto;
+        margin: 0 0 .5rem;
+
+        h1 {
+          font-size: 2.5rem;
+          margin: 0;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
+        button {
+          background: none;
+          border: none;
+          padding: .25rem;
+          margin: .25rem;
+          width: 1.75rem;
+          height: 1.75rem;
+          cursor: pointer;
+          position: relative;
+
+          &::before,
+          &::after {
+            content: '';
+            display: block;
+            height: 100%;
+            width: .25rem;
+            border-radius: .125rem;
+            background: $secondary;
+            transform-origin: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transition: background $transition;
+          }
+
+          &::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+          }
+
+          &::after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+          }
+
+          &:hover,
+          &:focus {
+            &::before,
+            &::after {
+              background: $select;
+            }
+          }
+        }
+      }
+
+      &:nth-child(2) {
+        flex: 1 1 auto;
+        overflow: auto;
+      }
+    }
+  }
+}

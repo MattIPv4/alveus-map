@@ -1,0 +1,47 @@
+@use "sass:color";
+
+$dark: #2D2D2D;
+$light: #FFF4EC;
+$secondary: #636A60;
+$tertiary: #A6B2A0;
+$select: #00B4FF;
+$select-fill: color.mix($select, #fff, $weight: 10%);
+$select-label: color.mix($select, #000, $weight: 60%);
+$transition: 0.2s ease-in-out;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  max-height: 100vh;
+  background: $light;
+  color: $secondary;
+  font-family: 'PT Sans', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  header {
+    background: $secondary;
+    color: $light;
+  }
+
+  main {
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+
+    @import "svg";
+    @import "info";
+  }
+
+  @import "footer";
+}
+
