@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:html",
     "build:js": "esbuild --bundle --sourcemap --minify --target=es2020 --outfile=dist/map.js src/map.js",
-    "build:css": "sass src/map.scss dist/map.css",
+    "build:css": "sass --style=compressed --embed-sources src/map.scss dist/map.css",
     "build:html": "posthtml src/index.html -o dist/index.html",
     "dev": "nodemon --ext html,js,scss,svg --watch src --exec \"npm run build && http-server dist\""
   },
