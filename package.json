@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Interactive Map of Alveus Sanctuary",
   "scripts": {
-    "build": "npm run build:js && npm run build:css && npm run build:html",
+    "build": "npm run build:js && npm run build:css && npm run build:html && npm run build:static",
     "build:js": "esbuild --bundle --sourcemap --minify --target=es2020 --outfile=dist/map.js src/js/map.js",
     "build:css": "sass --style=compressed --embed-sources src/scss/map.scss dist/map.css",
     "build:html": "posthtml src/index.html -o dist/index.html",
-    "dev": "nodemon --ext html,js,scss,svg --watch src --exec \"npm run build && http-server dist\""
+    "build:static": "cp -a src/static/. dist/",
+    "dev": "nodemon --ext '*' --watch src --exec \"npm run build && http-server dist\""
   },
   "author": "Matt (IPv4) Cowley",
   "license": "Apache-2.0",
