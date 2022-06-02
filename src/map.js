@@ -212,7 +212,6 @@ const showMapInfoHandler = (outline, modal, name) => {
         outline.classList.add('active');
 
         // Show the modal
-        // TODO: Markdown support for desc
         modal.querySelector('#info-title').textContent = title;
         modal.querySelector('#info-desc').innerHTML = desc;
         modal.style.display = 'flex';
