@@ -23,7 +23,6 @@
   "devDependencies": {
     "esbuild": "^0.14.42",
     "http-server": "^14.1.0",
-    "markdown-it-link-attributes": "^4.0.0",
     "nodemon": "^2.0.16",
     "posthtml": "^0.16.6",
     "posthtml-cli": "^0.10.0",
@@ -34,6 +33,7 @@
   "dependencies": {
     "hammerjs": "^2.0.8",
     "markdown-it": "^13.0.1",
+    "markdown-it-link-attributes": "^4.0.0",
     "punycode": "^2.1.1",
     "svg-pan-zoom": "^3.6.1"
   }
