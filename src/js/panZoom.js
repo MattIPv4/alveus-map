@@ -20,11 +20,11 @@ const clampPosition = (pz, pos) => {
   };
 };
 
-const computeMinZoom = (pz, minZoom, maxZoom, applyBase = false) => {
+const computeZoom = (pz, maxZoom, applyBase = false) => {
   // Trigger panZoom to update the viewBox
   pz.resize();
 
-  // Ensure the minimum zoom fills the screen
+  // Ensure the base zoom fills the screen
   const currentSizes = pz.getSizes();
   const actualWidth = currentSizes.viewBox.width * currentSizes.realZoom;
   const widthRatio = currentSizes.width / actualWidth;
@@ -32,11 +32,13 @@ const computeMinZoom = (pz, minZoom, maxZoom, applyBase = false) => {
   const heightRatio = currentSizes.height / actualHeight;
   const baseZoom = Math.max(widthRatio, heightRatio) * pz.getZoom();
 
+  // Ensure the min zoom allows viewing the full map
+  const minZoom = Math.min(widthRatio, heightRatio) * pz.getZoom();
+
   // Apply the new minimum zoom
-  const newMinZoom = baseZoom * minZoom;
-  pz.setMinZoom(newMinZoom);
-  if (pz.getZoom() < newMinZoom) {
-    pz.zoom(newMinZoom);
+  pz.setMinZoom(minZoom);
+  if (pz.getZoom() < minZoom) {
+    pz.zoom(minZoom);
     pz.pan(clampPosition(pz, pz.getPan()));
   }
 
@@ -108,13 +110,12 @@ const mobileEventsHandler = () => ({
 });
 
 export default svg => {
-  const minZoom = 0.5;
   const maxZoom = 5;
 
   // Start up basic panning and zooming
   const panZoom = svgPanZoom(svg, {
     zoomScaleSensitivity: 0.5,
-    minZoom,
+    minZoom: 1,
     maxZoom,
     customEventsHandler: mobileEventsHandler(),
     beforePan(oldPan, newPan) {
@@ -156,10 +157,10 @@ export default svg => {
     }
   });
 
-  // Ensure the minimum zoom remains based on the screen size
-  computeMinZoom(panZoom, minZoom, maxZoom, true);
+  // Ensure the zoom remains based on the screen size
+  computeZoom(panZoom, maxZoom, true);
   window.addEventListener('resize', () => {
-    computeMinZoom(panZoom, minZoom, maxZoom);
+    computeZoom(panZoom, maxZoom);
     panZoom.pan(clampPosition(panZoom, panZoom.getPan()));
   });
 };
