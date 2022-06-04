@@ -1,14 +1,17 @@
 {
   "name": "alveus-map",
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "description": "Alveus Sanctuary Interactive Map",
   "scripts": {
-    "build": "npm run build:js && npm run build:css && npm run build:html && npm run build:static",
+    "build": "npm run build:data && npm run build:js && npm run build:css && npm run build:html && npm run build:static",
+    "build:data": "node src/data/generate.js",
     "build:js": "esbuild --bundle --sourcemap --minify --target=es2020 --outfile=dist/map.js src/js/map.js",
     "build:css": "sass --style=compressed --embed-sources src/scss/map.scss dist/map.css",
     "build:html": "posthtml src/index.html -o dist/index.html",
     "build:static": "cp -a src/static/. dist/",
-    "dev": "nodemon --ext '*' --watch src --exec \"npm run build && http-server dist\""
+    "dev": "nodemon --ext '*' --watch src --ignore src/data/data.json --exec \"npm run build && http-server dist\""
   },
   "repository": {
     "type": "git",
@@ -22,7 +25,10 @@
   "homepage": "https://github.com/MattIPv4/alveus-map#readme",
   "devDependencies": {
     "esbuild": "^0.14.42",
+    "gray-matter": "^4.0.3",
     "http-server": "^14.1.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-link-attributes": "^4.0.0",
     "nodemon": "^2.0.16",
     "posthtml": "^0.16.6",
     "posthtml-cli": "^0.10.0",
@@ -32,9 +38,6 @@
   },
   "dependencies": {
     "hammerjs": "^2.0.8",
-    "markdown-it": "^13.0.1",
-    "markdown-it-link-attributes": "^4.0.0",
-    "punycode": "^2.1.1",
     "svg-pan-zoom": "^3.6.1"
   }
 }

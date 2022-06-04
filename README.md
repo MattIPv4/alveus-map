@@ -18,12 +18,13 @@ changes to `src` and rebuild the site, and make the site available at
 This project uses the `sass` package to compile styling, `esbuild` to bundle
 the JavaScript, and `posthtml` to generate the HTML. It makes use of the
 `svg-pan-zoom` and `hammerjs` packages to provide the pan and zoom
-functionality for the map, as well as the `markdown-it` and
-`markdown-it-link-attributes` packages to render the content for each
-building's information overlay.
+functionality for the map, as well as the `markdown-it`,
+`markdown-it-link-attributes` and `grey-matter` packages to render the content
+for each building's information overlay during the build process.
 
-_(The userland `punnycode` package is also a runtime dependency, as
-`markdown-it` requires it and we're in a browser context.)_
+_Note: If you're looking to edit the map SVG itself, please reach out to me as
+it is exported from a Figma file that acts as the source of truth, but is not
+published in this repository._
 
 ## Deployment
 
