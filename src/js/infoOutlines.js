@@ -1,15 +1,23 @@
 import data from '../data/data.json';
 
-const showMapInfoHandler = (outline, modal, name) => {
-  const info = data[name.toLowerCase().replace(/\s/g, '_')];
+const infoName = id => id.toLowerCase().replace(/ +\[outline]$/, '').replace(/\s/g, '_');
+
+const setHash = hash => history?.pushState
+  ? history.pushState(null, null, hash ? `/#${hash}` : ' ')
+  : window.location.hash = hash ? `#${hash}` : '';
+
+const showMapInfoHandler = (outline, modal, id) => {
+  const name = infoName(id);
+  const info = data[name];
   const title = info?.data?.title || name;
   const desc = info?.content || `Sorry, there is no information available about '${title}'`;
 
   return e => {
-    e.preventDefault();
+    e?.preventDefault();
 
     // Mark the outline as active
     outline.classList.add('active');
+    setHash(name);
 
     // Show the modal
     modal.querySelector('#info-title').textContent = title;
@@ -31,11 +39,12 @@ const showMapInfoHandler = (outline, modal, name) => {
 };
 
 const hideMapInfoHandler = (map, modal) => e => {
-  e.preventDefault();
+  e?.preventDefault();
 
   // Clean up the active outline
   const active = map.querySelector('.active');
   if (active) active.classList.remove('active');
+  setHash('');
 
   // Hide the modal
   modal.style.transition = 'opacity 0.2s ease-in-out';
@@ -85,6 +94,7 @@ export default (map, modal) => {
     // Allow the user to tab between outlines
     outline.setAttribute('tabindex', '0');
     outline.addEventListener('focus', () => {
+      console.log('focus', outline);
       // Determine how much is visible already
       const rect = outline.getBoundingClientRect();
       const mapRect = map.getBoundingClientRect();
@@ -97,6 +107,7 @@ export default (map, modal) => {
 
       // Pan into view (centered) if not visible enough
       if (areaVisible / areaFull < 0.25) {
+        console.log('focus pan', outline);
         map.dispatchEvent(new CustomEvent('panBy', {
           detail: {
             x: -(rect.left + (rect.width / 2) - (mapRect.width / 2)),
@@ -107,7 +118,7 @@ export default (map, modal) => {
     });
 
     // Allow each outline to open the modal
-    const showHandler = showMapInfoHandler(outline, modal, outline.getAttribute('id').replace(/ +\[outline]$/, ''));
+    const showHandler = showMapInfoHandler(outline, modal, outline.getAttribute('id'));
     outline.addEventListener('click', e => {
       if (!isPanning) showHandler(e);
     });
@@ -115,4 +126,17 @@ export default (map, modal) => {
       if (e.key === 'Enter' || e.key === ' ') showHandler(e);
     });
   });
+
+  // Check if we need to open a modal
+  // We wait two frames to ensure the map panning/zooming has loaded
+  window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+    const hash = window.location.hash.replace(/^#/, '');
+    if (Object.prototype.hasOwnProperty.call(data, hash)) {
+      const outline = outlines.find(outline => infoName(outline.getAttribute('id')) === hash);
+      if (outline) {
+        outline.focus();
+        showMapInfoHandler(outline, modal, hash)();
+      }
+    }
+  }));
 };
