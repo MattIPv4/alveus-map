@@ -12,7 +12,7 @@ const showMapInfoHandler = (outline, modal, id) => {
   const title = info?.data?.title || name;
   const desc = info?.content || `Sorry, there is no information available about '${title}'`;
 
-  return e => {
+  return e => new Promise(resolve => {
     e?.preventDefault();
 
     // Mark the outline as active
@@ -32,13 +32,14 @@ const showMapInfoHandler = (outline, modal, id) => {
 
         setTimeout(() => {
           modal.style.transition = '';
+          resolve();
         }, 200);
       });
     });
-  };
+  });
 };
 
-const hideMapInfoHandler = (map, modal) => e => {
+const hideMapInfoHandler = (map, modal) => e => new Promise(resolve => {
   e?.preventDefault();
 
   // Clean up the active outline
@@ -57,9 +58,22 @@ const hideMapInfoHandler = (map, modal) => e => {
       setTimeout(() => {
         modal.style.display = 'none';
         modal.style.transition = '';
+        resolve();
       }, 200);
     });
   });
+});
+
+const hashHandler = (map, modal, outlines) => async () => {
+  const hash = window.location.hash.replace(/^#/, '');
+  if (Object.prototype.hasOwnProperty.call(data, hash)) {
+    const outline = outlines.find(outline => infoName(outline.getAttribute('id')) === hash);
+    if (outline) {
+      outline.focus();
+      if (modal.style.display !== 'none') await hideMapInfoHandler(map, modal)();
+      await showMapInfoHandler(outline, modal, hash)();
+    }
+  }
 };
 
 export default (map, modal) => {
@@ -80,13 +94,13 @@ export default (map, modal) => {
   const closeHandler = hideMapInfoHandler(map, modal);
   modal.querySelector('button[aria-label="Close"]').addEventListener('click', closeHandler);
   modal.querySelector('button[aria-label="Close"]').addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') closeHandler(e);
+    if (e.key === 'Enter' || e.key === ' ') closeHandler(e).then();
   });
   modal.addEventListener('click', e => {
-    if (e.target === modal) closeHandler(e);
+    if (e.target === modal) closeHandler(e).then();
   });
   modal.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeHandler(e);
+    if (e.key === 'Escape') closeHandler(e).then();
   });
 
   const outlines = [ ...map.querySelectorAll('[id$=" [outline]"]') ];
@@ -120,23 +134,20 @@ export default (map, modal) => {
     // Allow each outline to open the modal
     const showHandler = showMapInfoHandler(outline, modal, outline.getAttribute('id'));
     outline.addEventListener('click', e => {
-      if (!isPanning) showHandler(e);
+      if (!isPanning) showHandler(e).then();
     });
     outline.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') showHandler(e);
+      if (e.key === 'Enter' || e.key === ' ') showHandler(e).then();
     });
   });
 
   // Check if we need to open a modal
   // We wait two frames to ensure the map panning/zooming has loaded
-  window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
-    const hash = window.location.hash.replace(/^#/, '');
-    if (Object.prototype.hasOwnProperty.call(data, hash)) {
-      const outline = outlines.find(outline => infoName(outline.getAttribute('id')) === hash);
-      if (outline) {
-        outline.focus();
-        showMapInfoHandler(outline, modal, hash)();
-      }
-    }
-  }));
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      const handler = hashHandler(map, modal, outlines);
+      window.addEventListener('hashchange', handler);
+      handler().then();
+    });
+  });
 };
