@@ -12,5 +12,5 @@ Here you'll be able to find:
 - Hank _(Smoky Ghost Millipede)_
 - Marty(s) _(Zebra Isopods)_
 - Barbra(s) & Baked Bean(s) _(Madagascan Hissing Cockroaches)_
-- Powder Orange Isopods
+- BB(s) _(Powder Orange Isopods)_
 - Rubber Ducky Isopods
