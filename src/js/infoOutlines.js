@@ -3,7 +3,7 @@ import data from '../data/data.json';
 const infoName = id => id.toLowerCase().replace(/ +\[outline]$/, '').replace(/\s/g, '_');
 
 const setHash = hash => history?.pushState
-  ? history.pushState(null, null, hash ? `/#${hash}` : ' ')
+  ? history.pushState(null, null, hash ? `#${hash}` : ' ')
   : window.location.hash = hash ? `#${hash}` : '';
 
 const showMapInfoHandler = (outline, modal, id) => {
