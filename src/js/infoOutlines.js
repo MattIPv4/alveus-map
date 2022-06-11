@@ -2,9 +2,11 @@ import data from '../data/data.json';
 
 const infoName = id => id.toLowerCase().replace(/ +\[outline]$/, '').replace(/\s/g, '_');
 
-const setHash = hash => history?.pushState
-  ? history.pushState(null, null, hash ? `#${hash}` : ' ')
-  : window.location.hash = hash ? `#${hash}` : '';
+const setHash = hash => window.location.hash === (hash ? `#${hash}` : '')
+  ? null
+  : history?.pushState
+    ? history.pushState(null, null, hash ? `#${hash}` : ' ')
+    : window.location.hash = hash ? `#${hash}` : '';
 
 const showMapInfoHandler = (outline, modal, id) => {
   const name = infoName(id);
@@ -39,13 +41,13 @@ const showMapInfoHandler = (outline, modal, id) => {
   });
 };
 
-const hideMapInfoHandler = (map, modal) => e => new Promise(resolve => {
+const hideMapInfoHandler = (map, modal, hash = true) => e => new Promise(resolve => {
   e?.preventDefault();
 
   // Clean up the active outline
   const active = map.querySelector('.active');
   if (active) active.classList.remove('active');
-  setHash('');
+  if (hash) setHash('');
 
   // Hide the modal
   modal.style.transition = 'opacity 0.2s ease-in-out';
@@ -67,10 +69,10 @@ const hideMapInfoHandler = (map, modal) => e => new Promise(resolve => {
 const hashHandler = (map, modal, outlines) => async () => {
   const hash = window.location.hash.replace(/^#/, '');
   if (Object.prototype.hasOwnProperty.call(data, hash)) {
-    const outline = outlines.find(outline => infoName(outline.getAttribute('id')) === hash);
+    const outline = outlines.find(elm => infoName(elm.getAttribute('id')) === (data[hash].data.outline || hash));
     if (outline) {
       outline.focus();
-      if (modal.style.display !== 'none') await hideMapInfoHandler(map, modal)();
+      if (modal.style.display !== 'none') await hideMapInfoHandler(map, modal, false)();
       await showMapInfoHandler(outline, modal, hash)();
     }
   }

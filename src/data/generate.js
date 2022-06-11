@@ -14,6 +14,7 @@ const files = getFilesInDir(dirname(fileURLToPath(import.meta.url))).filter(file
 // Create the MD renderer
 const md = markdown({ typographer: true });
 md.use(markdownLinkAttributes, {
+  matcher: href => !href.startsWith('#'),
   attrs: {
     target: '_blank',
     rel: 'noreferrer',

@@ -2,8 +2,8 @@
 title: Crow Enclosure
 ---
 
-Further up the main road through the property, beyond the barn, is the crow enclosure.
-Similar in construction to the parrot aviary, it is a large metal-mesh building that houses the crows.
+Further up the main road through the property, beyond [the barn](#barn), is the crow enclosure.
+Similar in construction to [the parrot aviary](#parrots), it is a large metal-mesh building that houses the crows.
 
 This enclosure was sponsored by [PointCrow](https://www.twitch.tv/pointcrow).
 
