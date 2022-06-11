@@ -7,8 +7,8 @@ At the top end of pasture is the barn, where food for the animals in the pasture
 There is a vehicle gate on the left side of the pasture at the top end, and a smaller gate near the barn.
 
 Here you can find:
-- Stompy _(Emu)_
+- [Stompy _(Emu)_](https://www.alveussanctuary.org/ambassadors/stompy/)
 - Winnie _(Cow)_
 - Acero _(Horse)_
-- Serrano _(Donkey)_
-- Jalapeño _(Donkey)_
+- [Serrano _(Donkey)_](https://www.alveussanctuary.org/ambassadors/serrano/)
+- [Jalapeño _(Donkey)_](https://www.alveussanctuary.org/ambassadors/jalapeno/)

@@ -9,6 +9,6 @@ A few ambassadors also live in this building, in terrariums or cages.
 _There's also a toilet in this building if you need it._
 
 Here you can find:
-- Patchy _(Ball Python)_
-- Snork _(Chinchilla)_
-- Moomin _(Chinchilla)_
+- [Patchy _(Ball Python)_](https://www.alveussanctuary.org/ambassadors/patchy/)
+- [Snork _(Chinchilla)_](https://www.alveussanctuary.org/ambassadors/snork/)
+- [Moomin _(Chinchilla)_](https://www.alveussanctuary.org/ambassadors/moomin/)
