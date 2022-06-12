@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
-import { basename, dirname, join } from 'path';
+import { basename, dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
 
 import markdown from 'markdown-it';
@@ -7,9 +7,10 @@ import markdownLinkAttributes from 'markdown-it-link-attributes';
 import matter from 'gray-matter';
 
 // Get all the MD files
+const base = dirname(fileURLToPath(import.meta.url));
 const getFilesInDir = path => readdirSync(path, { withFileTypes: true })
   .flatMap(file => (file.isDirectory() ? getFilesInDir(join(path, file.name)) : join(path, file.name)));
-const files = getFilesInDir(dirname(fileURLToPath(import.meta.url))).filter(file => file.endsWith('.md'));
+const files = getFilesInDir(base).filter(file => file.endsWith('.md'));
 
 // Create the MD renderer
 const md = markdown({ typographer: true });
@@ -28,7 +29,7 @@ const data = files.reduce((obj, file) => {
 
   const { data, content } = matter(readFileSync(file, 'utf8'));
   const rendered = md.render(content);
-  return { ...obj, [name]: { data, content: rendered } };
+  return { ...obj, [name]: { data, content: rendered, file: relative(base, file) } };
 }, {});
 
 // Write the data object

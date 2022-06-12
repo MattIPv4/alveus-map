@@ -21,9 +21,23 @@ const showMapInfoHandler = (outline, modal, id) => {
     outline.classList.add('active');
     setHash(name);
 
-    // Show the modal
+    // Inject the modal content
     modal.querySelector('#info-title').textContent = title;
     modal.querySelector('#info-desc').innerHTML = desc;
+
+    // Inject the GitHub link
+    modal.querySelector('#info-desc').appendChild(document.createElement('hr'));
+    const github = document.createElement('p');
+    github.appendChild(document.createTextNode('Want to improve this information? '));
+    const githubLink = document.createElement('a');
+    githubLink.href = `https://github.com/MattIPv4/alveus-map/edit/master/src/data/${info?.file || `${name}.md`}`;
+    githubLink.textContent = 'Edit it on GitHub';
+    githubLink.target = '_blank';
+    githubLink.rel = 'noreferrer';
+    github.appendChild(githubLink);
+    modal.querySelector('#info-desc').appendChild(github);
+
+    // Show the modal
     modal.style.display = 'flex';
     modal.style.transition = 'opacity 0.2s ease-in-out';
     window.requestAnimationFrame(() => {
