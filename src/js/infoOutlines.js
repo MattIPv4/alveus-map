@@ -124,7 +124,6 @@ export default (map, modal) => {
     // Allow the user to tab between outlines
     outline.setAttribute('tabindex', '0');
     outline.addEventListener('focus', () => {
-      console.log('focus', outline);
       // Determine how much is visible already
       const rect = outline.getBoundingClientRect();
       const mapRect = map.getBoundingClientRect();
@@ -137,7 +136,6 @@ export default (map, modal) => {
 
       // Pan into view (centered) if not visible enough
       if (areaVisible / areaFull < 0.25) {
-        console.log('focus pan', outline);
         map.dispatchEvent(new CustomEvent('panBy', {
           detail: {
             x: -(rect.left + (rect.width / 2) - (mapRect.width / 2)),
