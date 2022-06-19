@@ -37,3 +37,9 @@ footer {
     }
   }
 }
+
+:fullscreen {
+  .footer {
+    display: none;
+  }
+}

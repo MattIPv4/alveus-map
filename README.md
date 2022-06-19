@@ -18,9 +18,14 @@ changes to `src` and rebuild the site, and make the site available at
 This project uses the `sass` package to compile styling, `esbuild` to bundle
 the JavaScript, and `posthtml` to generate the HTML. It makes use of the
 `svg-pan-zoom` and `hammerjs` packages to provide the pan and zoom
-functionality for the map, as well as the `markdown-it`,
-`markdown-it-link-attributes` and `grey-matter` packages to render the content
-for each building's information overlay during the build process.
+functionality for the map, with `screenfull` to handle the fullscreen logic, as
+well as the `markdown-it`, `markdown-it-link-attributes` and `grey-matter`
+packages to render the content for each building's information overlay during
+the build process.
+
+Icons used are from the [Feather icons collection](https://feathericons.com/)
+and are licensed under the
+[MIT license](https://github.com/feathericons/feather/blob/master/LICENSE).
 
 _Note: If you're looking to edit the map SVG itself, please reach out to me as
 it is exported from a Figma file that acts as the source of truth, but is not

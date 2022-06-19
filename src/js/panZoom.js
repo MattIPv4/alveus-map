@@ -1,5 +1,9 @@
 import hammer from 'hammerjs';
 import svgPanZoom from 'svg-pan-zoom';
+import screenfull from 'screenfull';
+
+import maximizeIcon from '../icons/maximize.svg';
+import minimizeIcon from '../icons/minimize.svg';
 
 const clampPosition = (pz, pos) => {
   // Ensure all the edges remain pinned to the viewport edges
@@ -163,4 +167,38 @@ export default svg => {
     computeZoom(panZoom, maxZoom);
     panZoom.pan(clampPosition(panZoom, panZoom.getPan()));
   });
+
+  // Inject the fullscreen functionality
+  if (screenfull.isEnabled) {
+    // Create the button
+    const fullscreenButton = document.createElement('button');
+    fullscreenButton.className = 'fullscreen';
+    fullscreenButton.innerHTML = maximizeIcon;
+    fullscreenButton.setAttribute('type', 'button');
+    fullscreenButton.setAttribute('role', 'switch');
+    fullscreenButton.setAttribute('aria-label', 'Fullscreen');
+    fullscreenButton.setAttribute('aria-checked', 'false');
+
+    // Attach event handlers
+    fullscreenButton.addEventListener('click', e => {
+      e.preventDefault();
+      screenfull.toggle(svg.parentElement);
+    });
+    fullscreenButton.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        screenfull.toggle(svg.parentElement);
+      }
+    });
+
+    // Track fullscreen state
+    screenfull.on('change', () => {
+      fullscreenButton.className = `fullscreen${screenfull.isFullscreen ? ' active' : ''}`;
+      fullscreenButton.innerHTML = screenfull.isFullscreen ? minimizeIcon : maximizeIcon;
+      fullscreenButton.setAttribute('aria-checked', (!!screenfull.isFullscreen).toString());
+    });
+
+    // Show the button
+    svg.parentElement.appendChild(fullscreenButton);
+  }
 };

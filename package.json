@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run build:data && npm run build:js && npm run build:css && npm run build:html && npm run build:static",
     "build:data": "node src/data/generate.js",
-    "build:js": "esbuild --bundle --sourcemap --minify --target=es2020 --outfile=dist/map.js src/js/map.js",
+    "build:js": "esbuild --bundle --sourcemap --minify --target=es2020 --loader:.svg=text --outfile=dist/map.js src/js/map.js",
     "build:css": "sass --style=compressed --embed-sources src/scss/map.scss dist/map.css",
     "build:html": "posthtml src/index.html -o dist/index.html",
     "build:static": "cp -a src/static/. dist/",
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "hammerjs": "^2.0.8",
+    "screenfull": "^6.0.2",
     "svg-pan-zoom": "^3.6.1"
   }
 }
