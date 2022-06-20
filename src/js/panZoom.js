@@ -1,6 +1,6 @@
 import hammer from 'hammerjs';
-import svgPanZoom from 'svg-pan-zoom';
 import screenfull from 'screenfull';
+import svgPanZoom from 'svg-pan-zoom';
 
 import maximizeIcon from '../icons/maximize.svg';
 import minimizeIcon from '../icons/minimize.svg';

@@ -43,6 +43,7 @@ export default async map => {
   };
   let active = false;
   const animateLoop = async () => {
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       if (!active) break;
       await animate();

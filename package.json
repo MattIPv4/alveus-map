@@ -11,7 +11,11 @@
     "build:css": "sass --style=compressed --embed-sources src/scss/map.scss dist/map.css",
     "build:html": "posthtml src/index.html -o dist/index.html",
     "build:static": "cp -a src/static/. dist/",
-    "dev": "nodemon --ext '*' --watch src --ignore src/data/data.json --exec \"npm run build && http-server dist\""
+    "dev": "nodemon --ext '*' --watch src --ignore src/data/data.json --exec \"npm run build && http-server dist\"",
+    "test": "npm run test:js",
+    "test:fix": "npm run test:js:fix",
+    "test:js": "eslint \"{,src/**/}*.@(js|cjs)\"",
+    "test:js:fix": "npm run test:js -- --fix"
   },
   "repository": {
     "type": "git",
@@ -24,7 +28,11 @@
   },
   "homepage": "https://github.com/MattIPv4/alveus-map#readme",
   "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/eslint-parser": "^7.18.2",
     "esbuild": "^0.14.42",
+    "eslint": "^8.18.0",
+    "eslint-plugin-import": "^2.26.0",
     "gray-matter": "^4.0.3",
     "http-server": "^14.1.0",
     "markdown-it": "^13.0.1",

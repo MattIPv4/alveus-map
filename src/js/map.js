@@ -1,6 +1,6 @@
+import animateMap from './animateMap';
 import infoOutlines from './infoOutlines';
 import panZoom from './panZoom';
-import animateMap from './animateMap';
 
 document.addEventListener('DOMContentLoaded', () => {
   const map = document.getElementsByTagName('svg')[0];

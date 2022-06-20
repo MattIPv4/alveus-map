@@ -2,9 +2,9 @@ import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { basename, dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
 
+import matter from 'gray-matter';
 import markdown from 'markdown-it';
 import markdownLinkAttributes from 'markdown-it-link-attributes';
-import matter from 'gray-matter';
 
 // Get all the MD files
 const base = dirname(fileURLToPath(import.meta.url));
