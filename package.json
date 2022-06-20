@@ -12,10 +12,12 @@
     "build:html": "posthtml src/index.html -o dist/index.html",
     "build:static": "cp -a src/static/. dist/",
     "dev": "nodemon --ext '*' --watch src --ignore src/data/data.json --exec \"npm run build && http-server dist\"",
-    "test": "npm run test:js",
-    "test:fix": "npm run test:js:fix",
+    "test": "npm run test:js && npm run test:scss",
+    "test:fix": "npm run test:js:fix && npm run test:scss:fix",
     "test:js": "eslint \"{,src/**/}*.@(js|cjs)\"",
-    "test:js:fix": "npm run test:js -- --fix"
+    "test:js:fix": "npm run test:js -- --fix",
+    "test:scss": "stylelint \"src/**/*.scss\"",
+    "test:scss:fix": "npm run test:scss -- --fix"
   },
   "repository": {
     "type": "git",
@@ -42,7 +44,10 @@
     "posthtml-cli": "^0.10.0",
     "posthtml-expressions": "^1.9.0",
     "posthtml-include": "^1.7.4",
-    "sass": "^1.52.1"
+    "sass": "^1.52.1",
+    "stylelint": "^14.9.1",
+    "stylelint-config-standard-scss": "^4.0.0",
+    "stylelint-order": "^5.0.0"
   },
   "dependencies": {
     "hammerjs": "^2.0.8",

@@ -1,26 +1,26 @@
 #info {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba($dark, .5);
-  z-index: 1;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  background: rgba($dark, .5);
   display: none;
+  height: 100%;
+  justify-content: center;
   opacity: 0;
+  padding: 2rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 
   > div {
     background: $light;
     border-radius: .25rem;
+    display: flex;
+    flex-direction: column;
     max-height: 100%;
     max-width: 100%;
     min-width: 50vw;
     padding: 1rem;
-    display: flex;
-    flex-direction: column;
 
     @media screen and (min-width: 64rem) {
       max-width: 60rem;
@@ -28,43 +28,43 @@
 
     > div {
       &:nth-child(1) {
+        align-items: center;
         display: flex;
+        flex: 0 0 auto;
         flex-flow: row nowrap;
         justify-content: space-between;
-        align-items: center;
-        flex: 0 0 auto;
         margin: 0 0 .5rem;
 
         h1 {
           font-size: 2.5rem;
           margin: 0;
-          text-overflow: ellipsis;
           overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         button {
           background: none;
           border: none;
-          padding: .25rem;
-          margin: .25rem;
-          width: 1.75rem;
-          height: 1.75rem;
           cursor: pointer;
+          height: 1.75rem;
+          margin: .25rem;
+          padding: .25rem;
           position: relative;
+          width: 1.75rem;
 
           &::before,
           &::after {
-            content: '';
+            background: $secondary;
+            border-radius: .125rem;
+            content: "";
             display: block;
             height: 100%;
-            width: .25rem;
-            border-radius: .125rem;
-            background: $secondary;
-            transform-origin: center;
+            left: 50%;
             position: absolute;
             top: 50%;
-            left: 50%;
+            transform-origin: center;
             transition: background $transition;
+            width: .25rem;
           }
 
           &::before {

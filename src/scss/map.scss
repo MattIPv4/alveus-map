@@ -1,13 +1,13 @@
 @use "sass:color";
 
-$dark: #2D2D2D;
-$light: #FFF4EC;
-$secondary: #636A60;
-$tertiary: #A6B2A0;
-$select: #00B4FF;
+$dark: #2d2d2d;
+$light: #fff4ec;
+$secondary: #636a60;
+$tertiary: #a6b2a0;
+$select: #00b4ff;
 $select-fill: color.mix($select, #fff, $weight: 10%);
 $select-label: color.mix($select, #000, $weight: 60%);
-$transition: 0.2s ease-in-out;
+$transition: .2s ease-in-out;
 
 * {
   box-sizing: border-box;
@@ -15,13 +15,13 @@ $transition: 0.2s ease-in-out;
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  max-height: 100vh;
   background: $light;
   color: $secondary;
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
+  height: 100vh;
+  margin: 0;
+  max-height: 100vh;
+  padding: 0;
 }
 
 body {
@@ -34,11 +34,11 @@ body {
   }
 
   main {
-    position: relative;
-    flex-grow: 1;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
 
     @import "svg";
     @import "info";
@@ -46,4 +46,3 @@ body {
 
   @import "footer";
 }
-
