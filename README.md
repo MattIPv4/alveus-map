@@ -31,6 +31,23 @@ _Note: If you're looking to edit the map SVG itself, please reach out to me as
 it is exported from a Figma file that acts as the source of truth, but is not
 published in this repository._
 
+### Testing and linting
+
+This project makes use of `eslint` (with `eslint-plugin-import`) to maintain a
+consistent style of code for the JavaScript, and `stylelint` (with
+`stylelint-config-standard-scss` and `stylelint-order`) to maintain a
+consistent style of code for the SCSS.
+
+The linting for JavaScript can be run with `npm run test:js`. Many rules within
+eslint support auto-fixing, and this can be invoked with `npm run test:js:fix`.
+
+The linting for the SCSS styles can be run with `npm run test:scss`. Like with
+eslint, many rules within stylelint support auto-fixing, and this can be run
+with `npm run test:scss:fix`.
+
+Linting for both can be run at the same time with `npm run test`, and
+auto-fixing for both with `npm run test:fix`.
+
 ## Deployment
 
 Like with development, ensure you have a correct version of Node.js installed
