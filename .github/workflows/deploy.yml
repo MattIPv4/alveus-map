@@ -23,6 +23,9 @@ jobs:
           NODE_ENV: development
           CI: true
 
+      - name: Test code
+        run: npm test
+
       - name: Build site
         run: npm run build
 
