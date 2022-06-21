@@ -149,6 +149,14 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: [
+          'data/data.json$',
+        ],
+      },
+    ],
   },
   overrides: [
     {
