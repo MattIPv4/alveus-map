@@ -7,6 +7,7 @@ $tertiary: #a6b2a0;
 $select: #00b4ff;
 $select-fill: color.mix($select, #fff, $weight: 10%);
 $select-label: color.mix($select, #000, $weight: 60%);
+$select-label-fill: color.mix($select, #fff, $weight: 2.5%);
 $transition: .2s ease-in-out;
 
 * {

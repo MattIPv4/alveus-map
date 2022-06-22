@@ -9,21 +9,39 @@
     cursor: pointer;
 
     &,
-    > rect,
-    > path {
+    rect,
+    path,
+    circle {
       transition: stroke $transition, fill $transition;
     }
 
     // Some layers are in a lighten mode to ensure Figma preserved them in the export
-    &[style*="mix-blend-mode:lighten"],
-    &[style*="mix-blend-mode: lighten"] {
+    [style*="mix-blend-mode:lighten"],
+    [style*="mix-blend-mode: lighten"] {
+      fill: transparent;
       mix-blend-mode: revert !important;
+      stroke: transparent;
 
-      &,
-      > rect,
-      > path {
-        fill: transparent;
-        stroke: transparent;
+      // Reset the fill and stroke, but not inside masks
+      >,
+      :not(mask) {
+        rect,
+        path,
+        circle {
+          fill: transparent;
+          stroke: transparent;
+        }
+      }
+    }
+
+    // Labels will also indicate they're hoverable
+    [id^="Label"] {
+      circle {
+        transition: stroke $transition;
+      }
+
+      path {
+        transition: fill $transition;
       }
     }
 
@@ -33,7 +51,8 @@
       outline: none;
 
       &,
-      > rect {
+      rect,
+      circle {
         &[fill] {
           fill: $select-fill;
         }
@@ -43,7 +62,7 @@
         }
       }
 
-      > path {
+      path {
         &[fill] {
           // Paths that have a mask + fill are actually stroke outlines
           &[mask] {
@@ -61,41 +80,16 @@
         }
       }
 
-      ~ * {
-        &[id^="Label"] {
-          circle {
-            stroke: $select-label;
-          }
-
-          path {
-            fill: $select-label;
-          }
-        }
-
-        &:not([id^="Label"]) {
-          opacity: .1;
-        }
-      }
-    }
-
-    // Ensure everything above the outline does not steal pointer events (e.g. labels)
-    ~ * {
-      pointer-events: none;
-
-      // Labels will also indicate they're hoverable
-      &[id^="Label"] {
+      // Labels need specific styling for their text
+      [id^="Label"] {
         circle {
-          transition: stroke $transition;
+          fill: $select-label-fill !important;
+          stroke: $select-label !important;
         }
 
         path {
-          transition: fill $transition;
+          fill: $select-label !important;
         }
-      }
-
-      // Fade out anything above that isn't the label for the outline
-      &:not([id^="Label"]) {
-        transition: opacity $transition;
       }
     }
   }
