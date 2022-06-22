@@ -6,6 +6,10 @@ footer {
   justify-content: space-between;
   padding: 0 .5rem .5rem;
 
+  @media print {
+    display: none;
+  }
+
   @media only screen and (min-width: 768px) {
     > * {
       flex: 1 1 0;

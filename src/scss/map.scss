@@ -41,6 +41,10 @@ body {
     overflow: hidden;
     position: relative;
 
+    @media print {
+      overflow: initial;
+    }
+
     @import "svg";
     @import "info";
   }

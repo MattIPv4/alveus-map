@@ -1,9 +1,27 @@
 > svg {
   background: $tertiary;
   cursor: move;
-  flex-grow: 1;
-  height: 100%;
-  width: 100%;
+
+  @media not print {
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+  }
+
+  @media print {
+    .svg-pan-zoom_viewport { // stylelint-disable-line selector-class-pattern
+      transform: scale(1) !important;
+    }
+
+    #Birds-wrapper { // stylelint-disable-line selector-id-pattern
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+
+    #Overlay { // stylelint-disable-line selector-id-pattern
+      display: initial !important;
+    }
+  }
 
   [id$=" [outline]"] {
     cursor: pointer;
@@ -106,6 +124,10 @@
   position: absolute;
   right: 1em;
   transition: padding .2s ease-in-out;
+
+  @media print {
+    display: none;
+  }
 
   &.active,
   &:not(.active):hover,

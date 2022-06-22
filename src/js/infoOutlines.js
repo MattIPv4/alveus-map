@@ -155,6 +155,9 @@ export default (map, modal) => {
     });
   });
 
+  // Hide the built-in info overlay on the map
+  map.querySelector('#Overlay').style.display = 'none';
+
   // Check if we need to open a modal
   // We wait two frames to ensure the map panning/zooming has loaded
   window.requestAnimationFrame(() => {

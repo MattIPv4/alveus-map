@@ -3,8 +3,14 @@ const frame = () => new Promise(resolve => window.requestAnimationFrame(resolve)
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default async map => {
+  // Wrap the birds so we leave the original transform as-is for printing
+  const birdsInner = map.querySelector('#Birds');
+  const birds = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  birdsInner.insertAdjacentElement('afterend', birds);
+  birds.appendChild(birdsInner);
+  birds.id = 'Birds-wrapper';
+
   // Get some initial values from the birds and map
-  const birds = map.querySelector('#Birds');
   const opacity = Number(birds.getAttribute('opacity')) || Number(birds.style.opacity) || 1;
   const { x: baseX, y: baseY, width, height } = birds.getBBox();
   const { width: mapWidth, height: mapHeight } = map.getBBox();
